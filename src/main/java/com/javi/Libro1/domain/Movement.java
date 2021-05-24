@@ -15,7 +15,7 @@ class Movement {
         this.category = category;
     }
 
-    boolean isExpense() {
+    public boolean isExpense() {
         return amount < 0;
     }
 
