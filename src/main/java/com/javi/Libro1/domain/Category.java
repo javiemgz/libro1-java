@@ -4,11 +4,10 @@ public class Category {
     String name;
     String color;
 
-    Category(String name, String color) {
+    public Category(String name, String color) {
         this.name = name;
         this.color = color;
     }
-
 
     public String getName() {
         return name;

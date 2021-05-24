@@ -2,16 +2,16 @@ package com.javi.Libro1.domain;
 
 import java.time.LocalDate;
 
-class Movement {
+public class Movement {
     double amount;
     LocalDate date;
     String name;
     Category category;
 
-    Movement(String name, double amount, Category category) {
+
+    public Movement(String name, double amount, Category category) {
         this.amount = amount;
         this.name = name;
-        this.date = LocalDate.now();
         this.category = category;
     }
 

@@ -11,8 +11,8 @@ public class User {
     String lastName;
     String email;
     String password;
-    List<Category> customCategories = new ArrayList<Category>();
-    List<Movement> transactions = new ArrayList<Movement>();
+    List<Category> customCategories = new ArrayList<>();
+    List<Movement> transactions = new ArrayList<>();
 
     public User(String name, String lastName, String email, String password) {
         this.name = name;
@@ -36,8 +36,21 @@ public class User {
         return transactions.stream().filter(elem -> !elem.isExpense()).toList();
     }
 
+    public List<Category> getCustomCategories() {
+        return customCategories;
+    }
+
+    public void addCustomCategory(Category newCategory) {
+        this.customCategories.add(newCategory);
+    }
+
+    public void removeCustomCategory(Category deletedCategory) {
+        this.customCategories.remove(deletedCategory);
+    }
+
+
     public void validate() throws InvalidUserException {
-        ArrayList<String> errors = new ArrayList<String>();
+        ArrayList<String> errors = new ArrayList<>();
         if (name.isBlank())
             errors.add("No name given");
         if (lastName.isBlank())
@@ -48,7 +61,9 @@ public class User {
             errors.add("No name given");
         if (!errors.isEmpty())
             throw new InvalidUserException(errors);
-
     }
 
+    public List<Movement> getTransactions() {
+        return transactions;
+    }
 }
