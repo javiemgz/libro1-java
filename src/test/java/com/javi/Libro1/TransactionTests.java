@@ -6,8 +6,9 @@ import com.javi.Libro1.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TransactionTests {
 
@@ -22,6 +23,10 @@ public class TransactionTests {
     @BeforeEach
     public void addCategory() {
         user.addCustomCategory(addedCategory);
+        user.addTransaction(expense);
+        user.addTransaction(earning);
+        user.addTransaction(expense);
+        user.addTransaction(earning);
     }
 
 
@@ -32,6 +37,13 @@ public class TransactionTests {
         assertThrows(RuntimeException.class,
                 () -> user.addTransaction(wrongExpense)
         );
+
+    }
+
+    @Test
+    public void getExpensesOnlyReturnsOutgoingTransactions() {
+        List<Movement> expenses = user.getExpenses().stream().toList();
+        assertTrue(expenses.stream().allMatch((elem) -> elem.getAmount() < 0));
 
     }
 
