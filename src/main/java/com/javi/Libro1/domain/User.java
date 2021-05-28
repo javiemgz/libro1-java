@@ -38,24 +38,27 @@ public class User {
         return transactions.stream().filter(elem -> !elem.isExpense()).toList();
     }
 
-    public Map<Category, List<Movement>> getExpensesByCategory() {
+    public Map<Category, Double> getExpensesByCategory() {
         return this.getListOfMovementsMappedByCategory(this.getExpenses());
     }
-    public Map<Category, List<Movement>> getEarningsByCategory() {
+
+    public Map<Category, Double> getEarningsByCategory() {
         return this.getListOfMovementsMappedByCategory(this.getEarnigs());
     }
 
-    public double getTotalBalance(){
-        return this.transactions.stream().reduce(0.0 , (total, elem) -> total + elem.getAmount(), Double::sum);
+    public double getTotalBalance() {
+        return this.transactions.stream().reduce(0.0, (total, elem) -> total + elem.getAmount(), Double::sum);
     }
 
-    public Map<Category, List<Movement>> getListOfMovementsMappedByCategory(List<Movement> movements) {
-        Map<Category, List<Movement>> expensesByCategory = new HashMap<>();
+    public Map<Category, Double> getListOfMovementsMappedByCategory(List<Movement> movements) {
+        Map<Category, Double> expensesByCategory = new HashMap<>();
         this.customCategories.forEach(elem -> {
-                    List<Movement> movementStream = movements
+                    Double movementSum = movements
                             .stream()
-                            .filter(e -> e.category == elem).toList();
-                    expensesByCategory.put(elem, movementStream);
+                            .filter(e -> e.category == elem).toList()
+                            .stream()
+                            .reduce(0.0, (total, movement) -> total + movement.getAmount(), Double::sum);
+                    expensesByCategory.put(elem, movementSum);
                 }
         );
         return expensesByCategory;

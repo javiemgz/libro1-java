@@ -6,7 +6,9 @@ import com.javi.Libro1.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +46,36 @@ public class TransactionTests {
     public void getExpensesOnlyReturnsOutgoingTransactions() {
         List<Movement> expenses = user.getExpenses();
         assertTrue(expenses.stream().allMatch((elem) -> elem.getAmount() < 0));
-
     }
 
+    @Test
+    public void balanceIsEqualsToEarningsMinusExpenses(){
+        //in this scenario earnings are equals to 30k and expenses to 3k
+        assertEquals(27000, user.getTotalBalance());
+    }
+
+    @Test
+    public void totalExpensesByCategory(){
+        Movement otherExpense = new Movement("Gasto", -1500, nonAddedCategory);
+        user.addCustomCategory(nonAddedCategory);
+        user.addTransaction(otherExpense);
+        Map<Category, Double> total = user.getExpensesByCategory();
+        assertEquals(-3000, total.get(addedCategory));
+        assertEquals(-1500, total.get(nonAddedCategory));
+    }
+
+    @Test
+    public void GroupAndSumByCategory(){
+        user.addCustomCategory(nonAddedCategory);
+
+        List <Movement> listOfMovements = new ArrayList<>();
+        listOfMovements.add(new Movement("trans cat 1", 500, addedCategory));
+        listOfMovements.add(new Movement("trans cat 1", -100, addedCategory));
+        listOfMovements.add(new Movement("trans cat 2", 500, nonAddedCategory));
+
+        Map<Category, Double> total = user.getListOfMovementsMappedByCategory(listOfMovements);
+
+        assertEquals(400, total.get(addedCategory));
+        assertEquals(500, total.get(nonAddedCategory));
+    }
 }
