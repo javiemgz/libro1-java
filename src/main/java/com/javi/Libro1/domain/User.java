@@ -4,7 +4,9 @@ import com.javi.Libro1.utils.InvalidUserException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User {
     String name;
@@ -34,6 +36,18 @@ public class User {
 
     public List<Movement> getEarnigs() {
         return transactions.stream().filter(elem -> !elem.isExpense()).toList();
+    }
+
+    public Map<Category, List<Movement>> getExpensesByCategory() {
+        Map<Category, List<Movement>> expensesByCategory = new HashMap<>();
+        this.customCategories.forEach(elem -> {
+                    List<Movement> movementStream = this.getExpenses()
+                            .stream()
+                            .filter(e -> e.category == elem).toList();
+                    expensesByCategory.put(elem, movementStream);
+                }
+        );
+        return expensesByCategory;
     }
 
     public List<Category> getCustomCategories() {
