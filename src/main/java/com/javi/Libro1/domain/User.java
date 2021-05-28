@@ -39,9 +39,20 @@ public class User {
     }
 
     public Map<Category, List<Movement>> getExpensesByCategory() {
+        return this.getListOfMovementsMappedByCategory(this.getExpenses());
+    }
+    public Map<Category, List<Movement>> getEarningsByCategory() {
+        return this.getListOfMovementsMappedByCategory(this.getEarnigs());
+    }
+
+    public double getTotalBalance(){
+        return this.transactions.stream().reduce(0.0 , (total, elem) -> total + elem.getAmount(), Double::sum);
+    }
+
+    public Map<Category, List<Movement>> getListOfMovementsMappedByCategory(List<Movement> movements) {
         Map<Category, List<Movement>> expensesByCategory = new HashMap<>();
         this.customCategories.forEach(elem -> {
-                    List<Movement> movementStream = this.getExpenses()
+                    List<Movement> movementStream = movements
                             .stream()
                             .filter(e -> e.category == elem).toList();
                     expensesByCategory.put(elem, movementStream);
