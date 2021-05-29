@@ -1,7 +1,6 @@
 package com.javi.Libro1.domain;
 
 import com.javi.Libro1.utils.InvalidUserException;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class User {
         this.password = password;
     }
 
-    public void addTransaction(@NotNull Movement newTransaction) {
+    public void addTransaction(Movement newTransaction) {
         if (!customCategories.contains(newTransaction.getCategory()))
             throw new RuntimeException("Given category is not defined");
 
