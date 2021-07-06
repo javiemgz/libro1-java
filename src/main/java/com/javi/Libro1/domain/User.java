@@ -2,17 +2,24 @@ package com.javi.Libro1.domain;
 
 import com.javi.Libro1.utils.InvalidUserException;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Entity
 public class User {
+    @Id @GeneratedValue
+    Long id;
     String name;
     String lastName;
+    @Column(unique = true)
     String email;
     String password;
+    @Transient
     List<Category> customCategories = new ArrayList<>();
+    @Transient
     List<Movement> transactions = new ArrayList<>();
 
     public User(String name, String lastName, String email, String password) {
@@ -81,16 +88,56 @@ public class User {
         if (name.isBlank())
             errors.add("No name given");
         if (lastName.isBlank())
-            errors.add("No name given");
+            errors.add("No lastname given");
         if (password.isBlank())
-            errors.add("No name given");
+            errors.add("No password given");
         if (email.isBlank())
-            errors.add("No name given");
+            errors.add("No email given");
         if (!errors.isEmpty())
             throw new InvalidUserException(errors);
     }
 
     public List<Movement> getTransactions() {
         return transactions;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
