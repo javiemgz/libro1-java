@@ -22,6 +22,8 @@ public class User {
     @Transient
     List<Movement> transactions = new ArrayList<>();
 
+    public User(){}
+
     public User(String name, String lastName, String email, String password) {
         this.name = name;
         this.lastName = lastName;
