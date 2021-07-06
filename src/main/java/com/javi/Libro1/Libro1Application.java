@@ -1,4 +1,4 @@
-package com.javi.Libro1.app;
+package com.javi.Libro1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

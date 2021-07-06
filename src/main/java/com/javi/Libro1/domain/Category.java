@@ -21,7 +21,7 @@ public class Category {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Category comparedCategory) {
+        if (obj instanceof Category comparedCategory ) {
 
             return super.equals(comparedCategory) || this.id == comparedCategory.id;
 
