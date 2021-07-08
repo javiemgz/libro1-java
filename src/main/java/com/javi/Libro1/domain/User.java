@@ -1,34 +1,42 @@
 package com.javi.Libro1.domain;
 
 import com.javi.Libro1.utils.InvalidUserException;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
-public class User {
-    @Id @GeneratedValue
-    Long id;
-    String name;
-    String lastName;
+@Getter
+@Setter
+@NoArgsConstructor
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+    private String lastName;
     @Column(unique = true)
-    String email;
-    String password;
+    private String username;
+    private String password;
+    private Boolean locked;
+    private boolean enabled;
     @Transient
     List<Category> customCategories = new ArrayList<>();
     @Transient
     List<Movement> transactions = new ArrayList<>();
 
-    public User(){}
-
-    public User(String name, String lastName, String email, String password) {
+    public User(String name, String lastName, String username, String password, Boolean locked, boolean enabled) {
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
+        this.username = username;
         this.password = password;
+        this.locked = locked;
+        this.enabled = enabled;
     }
 
     public void addTransaction(Movement newTransaction) {
@@ -93,53 +101,44 @@ public class User {
             errors.add("No lastname given");
         if (password.isBlank())
             errors.add("No password given");
-        if (email.isBlank())
+        if (username.isBlank())
             errors.add("No email given");
         if (!errors.isEmpty())
             throw new InvalidUserException(errors);
     }
 
-    public List<Movement> getTransactions() {
-        return transactions;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
+    @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }

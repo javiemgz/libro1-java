@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TransactionTests {
 
-    private final User user = new User("Javi", "Gomez", "javi@gmail.com", "1234");
+    private final User user = new User("Javi", "Gomez", "javi@gmail.com", "1234",true, true);
     private final Category addedCategory = new Category("Categoria de test", "#fffff",1);
     private final Category nonAddedCategory = new Category("Categoria de test2", "#fffff",2);
 

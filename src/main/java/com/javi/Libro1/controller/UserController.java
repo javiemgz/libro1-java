@@ -28,7 +28,7 @@ public class UserController {
     public String post(User user) {
         ObjectMapper mapper = new ObjectMapper();
         try{
-            return mapper.writeValueAsString(userService.login(user.getEmail(), user.getPassword()));
+            return mapper.writeValueAsString(userService.login(user.getUsername(), user.getPassword()));
         }catch(Exception e){
             return e.getMessage();
         }
