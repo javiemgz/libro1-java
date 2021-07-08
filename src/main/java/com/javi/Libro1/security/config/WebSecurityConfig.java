@@ -1,4 +1,4 @@
-package security.config;
+package com.javi.Libro1.security.config;
 
 import com.javi.Libro1.services.UserService;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration/**")
+                .antMatchers("/api/register/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(encoder);
         provider.setUserDetailsService(userService);

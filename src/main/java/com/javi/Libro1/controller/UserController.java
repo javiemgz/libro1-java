@@ -13,17 +13,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = "/register")
-    @ApiOperation(value = "Create new user", notes = "Creates new user in the platform")
-    public String register(User user) {
-        try{
-            userService.createUser(user);
-            return "ok";
-        }catch(Exception e){
-            return "No es por ahi bro";
-        }
-    }
-
     @PostMapping(value = "/login")
     public String post(User user) {
         ObjectMapper mapper = new ObjectMapper();

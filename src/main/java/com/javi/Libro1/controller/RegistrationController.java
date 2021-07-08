@@ -1,9 +1,24 @@
 package com.javi.Libro1.controller;
 
+import com.javi.Libro1.utils.RegistrationRequest;
+import com.javi.Libro1.services.RegistrationService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/register")
+@RequestMapping(path = "api/register")
+@AllArgsConstructor
 public class RegistrationController {
+
+    private final RegistrationService regService;
+
+    @PostMapping
+    public String register(@RequestBody RegistrationRequest request){
+        return regService.register(request);
+    }
+
 }
