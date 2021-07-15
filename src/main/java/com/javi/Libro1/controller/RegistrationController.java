@@ -1,9 +1,9 @@
 package com.javi.Libro1.controller;
 
-import com.javi.Libro1.utils.RegistrationRequest;
+import com.javi.Libro1.utils.InvalidUserException;
+import com.javi.Libro1.utils.UserDto;
 import com.javi.Libro1.services.RegistrationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +17,10 @@ public class RegistrationController {
     private final RegistrationService regService;
 
     @PostMapping
-    public String register(@RequestBody RegistrationRequest request){
+    public String register(@RequestBody UserDto request) {
+
         return regService.register(request);
+
     }
 
 }

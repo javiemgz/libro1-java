@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    List<User> findUserByUsernameAndPassword(String username, String password);
+    List<User> findUserByEmailAndPassword(String username, String password);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

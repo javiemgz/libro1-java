@@ -21,22 +21,20 @@ public class User implements UserDetails {
     private String name;
     private String lastName;
     @Column(unique = true)
-    private String username;
+    private String email;
     private String password;
-    private Boolean locked;
-    private boolean enabled;
+    private boolean locked = false;
+    private boolean enabled = false;
     @Transient
     List<Category> customCategories = new ArrayList<>();
     @Transient
     List<Movement> transactions = new ArrayList<>();
 
-    public User(String name, String lastName, String username, String password, Boolean locked, boolean enabled) {
+    public User(String name, String lastName, String email, String password) {
         this.name = name;
         this.lastName = lastName;
-        this.username = username;
+        this.email = email;
         this.password = password;
-        this.locked = locked;
-        this.enabled = enabled;
     }
 
     public void addTransaction(Movement newTransaction) {
@@ -101,7 +99,7 @@ public class User implements UserDetails {
             errors.add("No lastname given");
         if (password.isBlank())
             errors.add("No password given");
-        if (username.isBlank())
+        if (email.isBlank())
             errors.add("No email given");
         if (!errors.isEmpty())
             throw new InvalidUserException(errors);
@@ -119,7 +117,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return email;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
