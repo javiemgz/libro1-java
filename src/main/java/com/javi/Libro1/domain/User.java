@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -29,6 +30,8 @@ public class User implements UserDetails {
     List<Category> customCategories = new ArrayList<>();
     @Transient
     List<Movement> transactions = new ArrayList<>();
+    LocalDateTime createdAt = LocalDateTime.now();
+    LocalDateTime enabletAt;
 
     public User(String name, String lastName, String email, String password) {
         this.name = name;
