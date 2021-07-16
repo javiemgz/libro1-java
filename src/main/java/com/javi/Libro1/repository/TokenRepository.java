@@ -4,19 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javi.Libro1.domain.User;
 import com.javi.Libro1.utils.ConfirmationToken;
+import org.springframework.stereotype.Repository;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.params.SetParams;
 
 import java.util.Optional;
 
+@Repository
 public class TokenRepository {
     Jedis jedis = new Jedis(new HostAndPort("localhost", 6379));
     ObjectMapper mapper = new ObjectMapper();
 
-    Optional<ConfirmationToken> findByToken(String token) {
+    public Optional<ConfirmationToken> findByToken(String token) {
         String userFetched = jedis.get(token);
-
+        System.out.println(userFetched);
         try {
             User userMapped = mapper.readValue(userFetched, User.class);
             return Optional.of(new ConfirmationToken(token, userMapped));
@@ -25,7 +27,7 @@ public class TokenRepository {
         }
     }
 
-    void save(ConfirmationToken token) {
+    public void save(ConfirmationToken token) {
         try {
             String userJson = mapper.writeValueAsString(token.getUser());
             long SECONDS_TO_EXPIRE = 180;

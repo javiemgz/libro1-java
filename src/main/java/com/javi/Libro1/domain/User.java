@@ -1,5 +1,11 @@
 package com.javi.Libro1.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.javi.Libro1.deserializers.UserDeserializer;
+import com.javi.Libro1.serializers.ShortUserSerializer;
 import com.javi.Libro1.utils.InvalidUserException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +21,8 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonSerialize(using = ShortUserSerializer.class)
+@JsonDeserialize(using = UserDeserializer.class)
 public class User implements UserDetails {
     @Id
     @GeneratedValue
@@ -26,18 +34,22 @@ public class User implements UserDetails {
     private String password;
     private boolean locked = false;
     private boolean enabled = false;
-    @Transient
+    @Transient  @JsonIgnore
     List<Category> customCategories = new ArrayList<>();
-    @Transient
+    @Transient  @JsonIgnore
     List<Movement> transactions = new ArrayList<>();
-    LocalDateTime createdAt = LocalDateTime.now();
-    LocalDateTime enabletAt;
 
     public User(String name, String lastName, String email, String password) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+    public User(Long id, String name, String lastName, String email) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     public void addTransaction(Movement newTransaction) {
