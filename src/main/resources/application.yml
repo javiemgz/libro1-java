@@ -11,6 +11,22 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: messenger.individuales@gmail.com
+    password:
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
+
 server:
   servlet.encoding.charset: UTF-8
   servlet.encoding.force: true

@@ -1,7 +1,6 @@
 package com.javi.Libro1.controller;
 
-import com.javi.Libro1.utils.InvalidUserException;
-import com.javi.Libro1.utils.UserDto;
+import com.javi.Libro1.Dtos.UserDto;
 import com.javi.Libro1.services.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

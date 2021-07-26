@@ -1,4 +1,4 @@
-package com.javi.Libro1.utils;
+package com.javi.Libro1.Dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
