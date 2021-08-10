@@ -13,10 +13,12 @@ import java.util.Optional;
 
 @Repository
 public class TokenRepository {
-    Jedis jedis = new Jedis(new HostAndPort("localhost", 6379));
+    Jedis jedis = new Jedis(new HostAndPort("redis-18349.c238.us-central1-2.gce.cloud.redislabs.com", 18349));
     ObjectMapper mapper = new ObjectMapper();
 
+
     public Optional<ConfirmationToken> findByToken(String token) {
+        jedis.auth("wu807NljXeMKYl1bOIdVrtMqmYZmNRXa");
         String userFetched = jedis.get(token);
         System.out.println(userFetched);
         try {
@@ -29,9 +31,10 @@ public class TokenRepository {
 
     public void save(ConfirmationToken token) {
         try {
+            jedis.auth("wu807NljXeMKYl1bOIdVrtMqmYZmNRXa");
             String userJson = mapper.writeValueAsString(token.getUser());
             long SECONDS_TO_EXPIRE = 180;
-            jedis.set(token.getToken(),userJson, new SetParams().ex(SECONDS_TO_EXPIRE));
+            jedis.set(token.getToken(), userJson, new SetParams().ex(SECONDS_TO_EXPIRE));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }

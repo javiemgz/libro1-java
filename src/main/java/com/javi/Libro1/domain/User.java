@@ -45,6 +45,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
     }
+
     public User(Long id, String name, String lastName, String email) {
         this.id = id;
         this.name = name;
@@ -132,7 +133,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
     }
 
     public String getEmail() {

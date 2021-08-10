@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
-    @Autowired
+
     UserRepository userRepository;
     TokenRepository tokenRepo;
 
@@ -53,11 +53,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
     public void enableUser(String email){
-        User user = userRepository.findByEmail(email).orElseThrow((() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email))));
+        User user = userRepository.findByEmail(email).orElseThrow((() ->
+                new UsernameNotFoundException(String.format(USER_NOT_FOUND, email))));
 
         if (user.isEnabled())
             throw new InvalidUserException("User already enabled");

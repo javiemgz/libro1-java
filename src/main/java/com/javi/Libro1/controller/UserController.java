@@ -12,7 +12,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/logddin")
     public String post(User user) {
         ObjectMapper mapper = new ObjectMapper();
         try{

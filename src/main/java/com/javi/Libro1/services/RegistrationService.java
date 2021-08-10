@@ -26,12 +26,12 @@ public class RegistrationService {
                  newUser.getPassword()));
 
         String link = "http://localhost:8080/api/register/confirm?token=" + token;
-        emailService.send(
+      /*  emailService.send(
                 newUser.getEmail(),
                 newUser.getFirstName(),
-                link);
+                link); */
 
-        return token;
+        return link;
     }
 
     public String confirmUserToken(String token){
