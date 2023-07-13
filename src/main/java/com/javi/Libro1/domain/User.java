@@ -1,34 +1,56 @@
 package com.javi.Libro1.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.javi.Libro1.deserializers.UserDeserializer;
+import com.javi.Libro1.serializers.ShortUserSerializer;
 import com.javi.Libro1.utils.InvalidUserException;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
-public class User {
-    @Id @GeneratedValue
-    Long id;
-    String name;
-    String lastName;
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonSerialize(using = ShortUserSerializer.class)
+@JsonDeserialize(using = UserDeserializer.class)
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+    private String lastName;
     @Column(unique = true)
-    String email;
-    String password;
-    @Transient
+    private String email;
+    private String password;
+    private boolean locked = false;
+    private boolean enabled = false;
+    @Transient  @JsonIgnore
     List<Category> customCategories = new ArrayList<>();
-    @Transient
+    @Transient  @JsonIgnore
     List<Movement> transactions = new ArrayList<>();
-
-    public User(){}
 
     public User(String name, String lastName, String email, String password) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public User(Long id, String name, String lastName, String email) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     public void addTransaction(Movement newTransaction) {
@@ -99,47 +121,42 @@ public class User {
             throw new InvalidUserException(errors);
     }
 
-    public List<Movement> getTransactions() {
-        return transactions;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getPassword() {
+        return this.password;
     }
 
-    public String getLastName() {
-        return lastName;
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }

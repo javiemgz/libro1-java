@@ -2,18 +2,35 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/libro1
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    username: javi
+    password: 1234
   jpa:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: messenger.individuales@gmail.com
+    password: rzczqgcglrifzyie
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
+
 server:
   servlet.encoding.charset: UTF-8
   servlet.encoding.force: true
   error:
-    include-stacktrace: ALWAYS
+    include-stacktrace: NEVER
     include-exception: false
